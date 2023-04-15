@@ -1016,21 +1016,6 @@
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "Wy'East Basin",
-				"desc": "<a href=\"#wpt-01\" class=\"wpt-link-image\"> <img src=\"https://raruto.github.io/leaflet-elevation/examples/waypoints/wpt-01.png\"></a><br>Coordinates: 45.41, -121.7134 Altitude: 1775 m<div class=\"wpt-desc\"> small meadow area, with great views North <div>"
-			},
-			"geometry": {
-				"type": "Point",
-				"coordinates": [
-					-121.71349,
-					45.41,
-					1775
-				]
-			}
-		},
-		{
-			"type": "Feature",
-			"properties": {
 				"name": "Dollar Lake",
 				"desc": "<a href=\"#wpt-02\" class=\"wpt-link-image\"> <img src=\"https://raruto.github.io/leaflet-elevation/examples/waypoints/wpt-02.png\"></a><br>Coordinates: 45.41124, -121.70404 Altitude: 1819 m<div class=\"wpt-desc\"> small, round, and with a sandy bottom <div>"
 			},
