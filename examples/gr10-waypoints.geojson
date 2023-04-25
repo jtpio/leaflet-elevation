@@ -2792,7 +2792,7 @@
       "properties": {
         "name": "📷 Photo",
         "desc": "<img width=\"512\" src=\"https://user-images.githubusercontent.com/591645/232235497-8651677b-2da9-4273-93a5-7f51af76fcb5.jpg\">",
-        "sym": "Trail Head"
+        "sym": "Photo"
       },
       "geometry": {
         "type": "Point",
@@ -2804,7 +2804,7 @@
       "properties": {
         "name": "📷 Photo",
         "desc": "<img width=\"512\" src=\"https://user-images.githubusercontent.com/591645/232235495-05d8f7ba-50d5-46f0-9878-7d3989bafb1a.jpg\">",
-        "sym": "Trail Head"
+        "sym": "Photo"
       },
       "geometry": {
         "type": "Point",

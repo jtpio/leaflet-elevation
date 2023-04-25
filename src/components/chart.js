@@ -33,7 +33,7 @@ export var Chart = L.Control.Elevation.Chart = L.Class.extend({
 
 		opts.xTicks = this._xTicks();
 		opts.yTicks = this._yTicks();
-		
+
 		let chart       = this._chart = D3.Chart(opts);
 
 		// SVG Container
@@ -430,7 +430,7 @@ export var Chart = L.Control.Elevation.Chart = L.Class.extend({
 			x    = this._x(point[xAttr]);
 			item = this._data[this._findIndexForXCoord(x)]
 			y    = this._y(item[yAttr]);
-		} 
+		}
 
 		this._point.call(D3.CheckPoint({
 			point: point,
@@ -475,7 +475,7 @@ export var Chart = L.Control.Elevation.Chart = L.Class.extend({
 			}
 		});
 
-		// Rest axis
+		// Reset axis
 		this._axis.selectAll('g').remove();
 		_.each(this._props.axes,  (axis, i) => {
 			if (opts[i] !== false && opts[i] !== 'summary') {
@@ -538,7 +538,7 @@ export var Chart = L.Control.Elevation.Chart = L.Class.extend({
 
 	_updateLegend: function () {
 		let xAxesB  = this._axis.selectAll('.x.axis.bottom').nodes().length;
-		
+
 		// Get legend items
 		let items = Object.keys(this._paths);
 
@@ -581,7 +581,7 @@ export var Chart = L.Control.Elevation.Chart = L.Class.extend({
 				})
 			);
 		}
-		
+
 		_.each(items, (name, i) => {
 			// Adjust legend item positions
 			this._legend.select('[data-name=' + name + ']').attr("transform", "translate(" + (v[i] * 55) + ", " + (xAxesB * 2) + ")");
@@ -596,7 +596,7 @@ export var Chart = L.Control.Elevation.Chart = L.Class.extend({
 		let xAxesB  = this._axis.selectAll('.x.axis.bottom').nodes().length;
 		let xAxesL  = this._axis.selectAll('.y.axis.left').nodes().length;
 		let xAxesR  = this._axis.selectAll('.y.axis.right').nodes().length;
-		let marginB = 60 + (xAxesB * 2);
+		let marginB = 10;
 		let marginL = 10 + (xAxesL * 30);
 		let marginR = 40 + (xAxesR * 30);
 

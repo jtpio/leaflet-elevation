@@ -242,14 +242,14 @@ export const LegendSmall = ({
 
 		symbol.exit().remove();
 		label.exit().remove();
-	
+
 		symbol.enter()
 			.append("svg:path")
 			.attr("class", "legend-switcher-symbol")
 			.attr("cursor", 'pointer')
 			.attr("fill", "#000")
 			.merge(symbol)
-			.attr("d", 
+			.attr("d",
 				d3.symbol()
 				.type(d => d.type)
 				.size(d => d.size)
@@ -272,7 +272,7 @@ export const LegendSmall = ({
 			onClick(items[idx]);
 		};
 		setIdx(0);
-		
+
 		return g;
 	};
 };
@@ -602,6 +602,9 @@ export const Chart = ({
 		margins = {},
 		ruler,
 	}) => {
+
+    // TODO: figure out why this is needed here
+    height = 200;
 
 		const w = width - margins.left - margins.right;
 		const h = height - margins.top - margins.bottom;
