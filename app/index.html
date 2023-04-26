@@ -38,11 +38,17 @@
     <script src="https://unpkg.com/leaflet-ui@0.5.9/dist/leaflet-ui.js"></script>
 
     <!-- leaflet-elevation -->
-    <link
+    <!-- <link
       rel="stylesheet"
       href="../dist/leaflet-elevation.css"
+    /> -->
+    <!-- <script src="../dist/leaflet-elevation.js"></script> -->
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@raruto/leaflet-elevation@2.2.8/dist/leaflet-elevation.min.css"
     />
-    <script src="../dist/leaflet-elevation.js"></script>
+    <script src="https://unpkg.com/@raruto/leaflet-elevation@2.2.8/dist/leaflet-elevation.min.js"></script>
 
     <style>
       .elevation-tooltip.leaflet-tooltip,
@@ -108,8 +114,12 @@
       }
 
       /** Custom summary */
-
       .data-summary {
+        z-index: 1000;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        left: 0px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -178,8 +188,6 @@
       .height-focus-label {
         display: none;
       }
-
-
     </style>
   </head>
 
@@ -213,6 +221,7 @@
     <div id="map" class="leaflet-map"></div>
     <div id="elevation-div" class="elevation-div"></div>
 
+
     <script>
       let opts = {
         map: {
@@ -240,14 +249,15 @@
             detached: true,
             useLeafletMarker: true,
             downloadLink: false,
-            summary: false,
             closeBtn: false,
             hotline: false,
-            timestamps: true,
+            timestamps: false,
             distanceMarkers: true,
             waypoints: true,
             time: false,
             legend: false,
+            height: 200,
+            summary: false,
 
             /**
              * Custom waypoint icons
@@ -259,13 +269,12 @@
                 iconSize: [30, 30],
                 iconAnchor: [8, 30],
               }),
-              "photo": L.divIcon({
+              photo: L.divIcon({
                 className: "elevation-waypoint-marker",
                 html: '<i class="elevation-waypoint-icon photo"></i>',
                 iconSize: [30, 30],
-              })
+              }),
             },
-            // wptLabels: "markers",
           },
         },
       };
@@ -281,13 +290,13 @@
         q(".totlen .summaryvalue").innerHTML =
           track_info.distance.toFixed(2) + " km";
         q(".maxele .summaryvalue").innerHTML =
-          track_info.elevation_max.toFixed(2) + " m";
+          track_info.elevation_max.toFixed(0) + " m";
         q(".minele .summaryvalue").innerHTML =
-          track_info.elevation_min.toFixed(2) + " m";
+          track_info.elevation_min.toFixed(0) + " m";
         q(".gain .summaryvalue").innerHTML =
-          "+" + (track_info.ascent || '0').toFixed(0) + " m";
+          "+" + (track_info.ascent || "0").toFixed(0) + " m";
         q(".loss .summaryvalue").innerHTML =
-          "-" + (track_info.descent || '0').toFixed(0) + " m";
+          "-" + (track_info.descent || "0").toFixed(0) + " m";
       });
     </script>
   </body>

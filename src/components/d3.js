@@ -603,9 +603,6 @@ export const Chart = ({
 		ruler,
 	}) => {
 
-    // TODO: figure out why this is needed here
-    height = 200;
-
 		const w = width - margins.left - margins.right;
 		const h = height - margins.top - margins.bottom;
 
