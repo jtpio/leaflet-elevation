@@ -37,12 +37,13 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.js"></script>
     <script src="https://unpkg.com/leaflet-ui@0.5.9/dist/leaflet-ui.js"></script>
 
-    <!-- leaflet-elevation -->
-    <!-- <link
+    <!--
+    <link
       rel="stylesheet"
       href="../dist/leaflet-elevation.css"
-    /> -->
-    <!-- <script src="../dist/leaflet-elevation.js"></script> -->
+    />
+    <script src="../dist/leaflet-elevation.js"></script>
+    -->
 
     <link
       rel="stylesheet"
@@ -148,16 +149,15 @@
         display: none;
       }
 
-      .custom-theme.elevation-control .area path.altitude,
-      .custom-theme .legend-altitude rect.area {
-        fill-opacity: 0.4;
-        stroke-width: 1.5;
-      }
+      /** Custom theme */
 
-      .custom-theme.elevation-control .area path.slope {
-        fill-opacity: 1;
-        stroke: #000;
-        stroke-width: 1.5;
+      .custom-theme {
+        --ele-bg: #fff;
+        /* --ele-area: #ff8b00; */
+        --ele-area: #ff0000;
+        --ele-grid: #cccccc;
+        --ele-poly: #ff0000;
+        --ele-drop-shadow: #aaa;
       }
 
       .custom-theme.height-focus.circle-lower {
@@ -165,18 +165,20 @@
       }
 
       .custom-theme.elevation-polyline-segments {
-        stroke: #ff0;
         stroke-width: 2;
         stroke-dasharray: 4;
       }
 
       /** More tweaks */
-      .elevation-tooltip {
+
+      .elevation-tooltip,
+      .elevation-control .area path.slope,
+      .elevation-control .legend {
         display: none;
       }
 
-      .elevation-control .background {
-        background-color: white;
+      .elevation-polyline {
+        filter: drop-shadow(1px 1px 0 var(--ele-drop-shadow)) drop-shadow(-1px -1px 0 var(--ele-drop-shadow)) drop-shadow(1px -1px 0 var(--ele-drop-shadow)) drop-shadow(-1px 1px 0 var(--ele-drop-shadow));
       }
 
       .elevation-popup .leaflet-popup-content {
@@ -220,7 +222,6 @@
     <div id="map" class="leaflet-map"></div>
     <div id="elevation-div" class="elevation-div"></div>
 
-
     <script>
       let opts = {
         map: {
@@ -241,7 +242,6 @@
           rotate: true,
         },
         elevationControl: {
-          url: "gr10-waypoints.geojson",
           options: {
             preferCanvas: false,
             theme: "custom-theme",
@@ -254,9 +254,9 @@
             distanceMarkers: true,
             waypoints: true,
             time: false,
-            legend: false,
             height: 200,
             summary: false,
+            legend: false,
 
             /**
              * Custom waypoint icons
@@ -278,24 +278,47 @@
         },
       };
 
-      let map = L.map("map", opts.map);
+      const map = L.map("map", opts.map);
 
-      let controlElevation = L.control.elevation(opts.elevationControl.options);
-      controlElevation.load(opts.elevationControl.url);
+      // fetch the URL of the file from the query string parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const file = urlParams.get("file");
+
+      const controlElevation = L.control.elevation(opts.elevationControl.options);
+      controlElevation.load(file);
       controlElevation.addTo(map);
 
+      const q = document.querySelector.bind(document);
+
+      controlElevation.on("eletrack_added", ({ coords }) => {
+        let prev = null;
+        let ascent = 0;
+        let descent= 0;
+        coords.forEach((point, i) => {
+          const alt = point.alt ?? point.meta.ele ?? point[2]
+          if (prev) {
+            const dz = alt - prev;
+            if (dz > 0) {
+              ascent += dz;
+            } else {
+              descent += dz;
+            }
+          }
+          prev = alt;
+        });
+
+        q(".gain .summaryvalue").innerHTML = `${ascent} m`;
+        q(".loss .summaryvalue").innerHTML = `${descent} m`;
+      });
+
       controlElevation.on("eledata_loaded", ({ layer, name, track_info }) => {
-        let q = document.querySelector.bind(document);
+        console.log(track_info)
         q(".totlen .summaryvalue").innerHTML =
           track_info.distance.toFixed(2) + " km";
         q(".maxele .summaryvalue").innerHTML =
           track_info.elevation_max.toFixed(0) + " m";
         q(".minele .summaryvalue").innerHTML =
           track_info.elevation_min.toFixed(0) + " m";
-        q(".gain .summaryvalue").innerHTML =
-          "+" + (track_info.ascent || "0").toFixed(0) + " m";
-        q(".loss .summaryvalue").innerHTML =
-          "-" + (track_info.descent || "0").toFixed(0) + " m";
       });
     </script>
   </body>
